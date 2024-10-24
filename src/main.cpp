@@ -1,8 +1,16 @@
-#include "events.hpp"
-#include "config.h"
 #include <array>
 #include <iostream>
 #include <vector>
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include "events.hpp"
+#include "config.h"
+#include "chain.h"
+
+sf::Vector2f start(100, 100);
+
+Chain guy(start, 50, 50);
+
 
 
 int main()
@@ -12,19 +20,14 @@ int main()
     window.setFramerateLimit(conf::MAX_FRAMERATE);
     float x, y = 0;
 
-    //define circle
-    sf::CircleShape circle(40.f);
-    circle.setFillColor(sf::Color::Transparent);
-    circle.setOutlineColor(sf::Color::White);
-    circle.setOutlineThickness(5);
+    
 
     while (window.isOpen())
     {
         
-        processEvents(window);
         window.clear();
-        updateObjectLocation(circle, window);
-        window.draw(circle);
+        processEvents(window);
+        guy.draw(window);
         window.display();
     }
 }
