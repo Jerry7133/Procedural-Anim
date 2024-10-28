@@ -51,10 +51,10 @@ public:	Chain(sf::Vector2f origin, int jointCount, int linkSize, float angleCons
 		  else return point;
 	  }
 	  
-	  void resolve(sf::Vector2f target)
+	  void resolve(sf::Vector2f target, sf::Vector2f radius)
 	  {
 		  //Resolve from end to start
-		  joints[joints.size() - 1] = target;
+		  joints[joints.size() - 1] = target - radius;
 		  for (int i = joints.size() - 2; i >= 0; --i)
 		  {
 			  joints[i] = constrainDistance(joints[i + 1], joints[i]);
@@ -81,25 +81,6 @@ public:	Chain(sf::Vector2f origin, int jointCount, int linkSize, float angleCons
 		  }
 
 	  }
-	  
-
-	  
 
 	
 };
-
-/*void draw(sf::RenderWindow& window, int radius = 40,
-	sf::Color fill = sf::Color::Transparent, sf::Color outlineColor = sf::Color::White,
-	int outlineThickness = 5)
-{
-	for (const auto& joint : joints) {
-		sf::CircleShape circle(radius);
-		circle.setFillColor(fill);
-		circle.setOutlineColor(outlineColor);
-		circle.setOutlineThickness(outlineThickness);
-		circle.setPosition(joint);
-		window.draw(circle);
-	}
-
-}*/
-

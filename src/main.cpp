@@ -5,20 +5,23 @@
 #include <SFML/Window.hpp>
 #include "chain.h"
 
-//init vars
-int radius = 40;
-int linkSize = 50;
-//set up chain
-sf::Vector2f start(100, 100);
-Chain guy(start, 5, linkSize);
-sf::Vector2f mousePos;
+
 
 
 
 int main()
 {
+    //init vars
+    int radius = 50;
+    sf::Vector2f radiusVec(radius, radius);
+    int linkCount = 5;
+    //set up chain
+    sf::Vector2f start(100, 100);
+    Chain guy(start, linkCount, radius);
+    sf::Vector2f mousePos;
+
     //create window
-    auto window = sf::RenderWindow({ 1000, 1000}, "CMake SFML Project");
+    auto window = sf::RenderWindow({ 1920, 1080}, "CMake SFML Project");
     window.setFramerateLimit(60);
   
     while (window.isOpen())
@@ -39,10 +42,10 @@ int main()
                     window.close();
                     break;
                 case sf::Keyboard::D:
-                    linkSize += 50;
+                    linkCount += 1;
                     break;
                 case::sf::Keyboard::S:
-                    linkSize -= 50;
+                    linkCount -= 1;
                     break;
                 default:
                     break;
@@ -50,7 +53,7 @@ int main()
                 break;
             case sf::Event::MouseMoved:
                 mousePos = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window));
-                guy.resolve(mousePos);
+                guy.resolve(mousePos, radiusVec);
                 break;
             case sf::Event::MouseButtonPressed:
                 radius += 40;
