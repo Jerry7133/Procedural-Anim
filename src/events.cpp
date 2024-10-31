@@ -1,7 +1,4 @@
 #include "events.hpp"
-#include "chain.h"
-
-
 
 
 void updateObjectLocation(sf::CircleShape& circle, sf::Window& window)
@@ -35,16 +32,5 @@ sf::Vector2f constrainDistance(sf::Vector2f origin, sf::Vector2f point, float co
     return point;
 }
 
-float heading(const sf::Vector2f& v)
-{
-    return atan2(v.y, v.x);
-}
 
-float constrainAngle(float angle, float constraint)
-{
-    if (angle > constraint)
-        angle = constraint;
-    else if (angle < -constraint)
-        angle = -constraint;
-    return angle;
-}
+

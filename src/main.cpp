@@ -4,25 +4,25 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include "chain.h"
-
-
+#include "config.h"
 
 
 
 int main()
 {
     //init vars
-    int radius = 50;
-    sf::Vector2f radiusVec(radius, radius);
-    int linkCount = 5;
-    //set up chain
-    sf::Vector2f start(100, 100);
-    Chain guy(start, linkCount, radius);
+    int linkSize = 40;
+    sf::Vector2f radiusVector(linkSize, linkSize);
+    int linkCount = 15;
     sf::Vector2f mousePos;
+    sf::Vector2f anchorPos(500, 500);
+	//set up chain, start pos doesn't particularly matter so just use radiusVector
+    Chain guy(radiusVector, linkCount, 40, PI/6);
+    
 
     //create window
-    auto window = sf::RenderWindow({ 1920, 1080}, "CMake SFML Project");
-    window.setFramerateLimit(60);
+    auto window = sf::RenderWindow({conf::WINDOW_SIZE.x, conf::WINDOW_SIZE.y}, "Procedural Anim project");
+    window.setFramerateLimit(conf::MAX_FRAMERATE);
   
     while (window.isOpen())
     {
@@ -42,10 +42,12 @@ int main()
                     window.close();
                     break;
                 case sf::Keyboard::D:
-                    linkCount += 1;
+                    guy.addJoint(window);
+                    guy.resolve(mousePos);
                     break;
                 case::sf::Keyboard::S:
-                    linkCount -= 1;
+                    guy.deleteJoint();
+					guy.resolve(mousePos);
                     break;
                 default:
                     break;
@@ -53,21 +55,21 @@ int main()
                 break;
             case sf::Event::MouseMoved:
                 mousePos = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window));
-                guy.resolve(mousePos, radiusVec);
+                guy.resolve(mousePos);
                 break;
             case sf::Event::MouseButtonPressed:
-                radius += 40;
+                guy.linkSize += 40;
+                guy.resolve(mousePos);
                 break;
             case sf::Event::MouseButtonReleased:
-                radius -= 40;
+				guy.linkSize -= 40;
+                guy.resolve(mousePos);
                 break;
-
             default:
                 break;
             }
         }
-		guy.draw(window, radius);
-
+        guy.draw(window, rainbow());
         window.display();
     }
 }
